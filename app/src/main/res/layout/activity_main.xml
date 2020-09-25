@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/fragment_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.UiMainActivity">
+
+    <ProgressBar
+        android:id="@+id/loadingCircle"
+        android:layout_width="@dimen/icon_common_size"
+        android:layout_height="@dimen/icon_common_size"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="@dimen/padding_size_xl"
+        android:layout_marginBottom="@dimen/padding_size_xl"
+        android:visibility="gone"/>
+
+</FrameLayout>
