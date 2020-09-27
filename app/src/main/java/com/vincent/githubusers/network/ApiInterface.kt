@@ -2,8 +2,10 @@ package com.vincent.githubusers.network
 
 import com.vincent.githubusers.model.ApiUrls
 import com.vincent.githubusers.model.items.ItemUser
+import com.vincent.githubusers.model.items.ItemUserDetail
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -17,4 +19,6 @@ interface ApiInterface {
         @Query("per_page") perPage: Int
     ): Call<List<ItemUser>>
 
+    @GET(ApiUrls.API_GITHUB_USERS_DETAIL)
+    fun getUserDetail(@Path("userName") userName: String): Call<ItemUserDetail>
 }

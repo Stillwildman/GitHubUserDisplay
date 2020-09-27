@@ -3,6 +3,10 @@
 
     <data>
         <variable
+            name="clickCallback"
+            type="com.vincent.githubusers.callbacks.OnUserClickCallback" />
+
+        <variable
             name="user"
             type="com.vincent.githubusers.model.items.ItemUser"/>
     </data>
@@ -17,14 +21,15 @@
         android:paddingEnd="@dimen/padding_size_xl"
         android:clickable="true"
         android:focusable="true"
-        android:background="?android:selectableItemBackground">
+        android:background="?android:selectableItemBackground"
+        android:onClick="@{() -> clickCallback.onLoginGet(user.login)}">
 
         <TextView
             android:id="@+id/text_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1"
-            android:textSize="@dimen/font_text_size_l"
+            android:textSize="@dimen/font_text_size_m"
             android:textColor="@color/md_grey_400"
             android:text="@{String.valueOf(user.id)}"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,6 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_size_xl"
+            android:layout_marginEnd="@dimen/padding_size_m"
             tools:text="Vincent"
             android:text="@{user.login}"
             android:textSize="@dimen/font_text_size_m"
@@ -71,7 +77,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_avatar"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/button_favorite" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/button_favorite"
+            android:layout_width="@dimen/icon_common_size"
+            android:layout_height="@dimen/icon_common_size"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/selector_favorite"
+            app:layout_constraintStart_toEndOf="@+id/text_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

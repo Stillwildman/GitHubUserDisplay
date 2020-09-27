@@ -5,6 +5,7 @@ import com.vincent.githubusers.callbacks.OnDataGetCallback
 import com.vincent.githubusers.callbacks.OnLoadingCallback
 import com.vincent.githubusers.model.ApiUrls
 import com.vincent.githubusers.model.items.ItemUser
+import com.vincent.githubusers.model.items.ItemUserDetail
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,15 +53,20 @@ object DataCallbacks {
     }
 
     fun getUsers(since: Int, perPage: Int, dataGetCallback: OnDataGetCallback<List<ItemUser>>, loadingCallback: OnLoadingCallback? = null) {
-        val call = getApiInterface(ApiUrls.API_BASE_GITHUB).getPaginatedUsers(since, perPage)
+        val call = getApiInterface(ApiUrls.BASE_GITHUB_API).getPaginatedUsers(since, perPage)
+        enqueue(call, dataGetCallback, loadingCallback)
+    }
+
+    fun getUserDetail(login: String, dataGetCallback: OnDataGetCallback<ItemUserDetail>, loadingCallback: OnLoadingCallback?) {
+        val call = getApiInterface(ApiUrls.BASE_GITHUB_API).getUserDetail(login)
         enqueue(call, dataGetCallback, loadingCallback)
     }
 
     private fun notifyNetworkEventStart(loadingCallback: OnLoadingCallback?) {
-        loadingCallback?.showLoading()
+        loadingCallback?.onLoadingStart()
     }
 
     private fun notifyNetworkEventEnds(loadingCallback: OnLoadingCallback?) {
-        loadingCallback?.hideLoading()
+        loadingCallback?.onLoadingEnds()
     }
 }

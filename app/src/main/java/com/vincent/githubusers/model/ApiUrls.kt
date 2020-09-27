@@ -5,8 +5,10 @@ package com.vincent.githubusers.model
  */
 object ApiUrls {
 
-    const val API_BASE_GITHUB = "https://api.github.com/"
+    const val BASE_GITHUB_API = "https://api.github.com/"
 
     const val API_GITHUB_USERS = "users"
+
+    const val API_GITHUB_USERS_DETAIL = "users/{userName}"
 
 }

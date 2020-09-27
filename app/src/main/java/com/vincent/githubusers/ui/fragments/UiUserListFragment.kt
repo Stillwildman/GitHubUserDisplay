@@ -3,12 +3,13 @@ package com.vincent.githubusers.ui.fragments
 import android.widget.LinearLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vincent.githubusers.R
+import com.vincent.githubusers.callbacks.OnUserClickCallback
 import com.vincent.githubusers.callbacks.PagingStatusCallback
 import com.vincent.githubusers.databinding.FragmentUserListBinding
+import com.vincent.githubusers.model.Const
 import com.vincent.githubusers.model.items.ItemUser
 import com.vincent.githubusers.ui.adapters.UserListAdapter
 import com.vincent.githubusers.ui.bases.BaseFragment
@@ -18,7 +19,7 @@ import com.vincent.githubusers.viewmodel.UserListViewModel
 /**
  * Created by Vincent on 2020/9/24.
  */
-class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatusCallback {
+class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatusCallback, OnUserClickCallback {
 
     private val viewModel by lazy { ViewModelProvider(this).get(UserListViewModel::class.java)}
 
@@ -34,15 +35,7 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
 
-            adapter = UserListAdapter(object : DiffUtil.ItemCallback<ItemUser>() {
-                override fun areItemsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
-                    return oldItem.id == newItem.id
-                }
-
-                override fun areContentsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
-                    return oldItem.id == newItem.id && oldItem.login == newItem.login
-                }
-            })
+            adapter = UserListAdapter(this@UiUserListFragment)
         }
     }
 
@@ -75,6 +68,10 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
         errorMessage?.let {
             viewModel.liveErrorMessage.value = it
         }
+    }
+
+    override fun onLoginGet(login: String) {
+        openFragment(UiUserDetailFragment.newInstance(login), false, Const.BACK_USER_DETAIL)
     }
 
     private fun getUserListAdapter(): UserListAdapter = mBinding.recyclerUserList.adapter as UserListAdapter

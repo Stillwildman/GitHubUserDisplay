@@ -8,6 +8,8 @@ object Const {
     const val BACK_USER_LIST = "BackUserList"
     const val BACK_USER_DETAIL = "BackUserDetail"
 
+    const val BUNDLE_LOGIN = "login"
+
     const val TOOLBAR_BACK = -1
 
 }

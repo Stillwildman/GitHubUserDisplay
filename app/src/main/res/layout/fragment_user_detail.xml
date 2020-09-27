@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="profile"
+            type="com.vincent.githubusers.model.items.ItemUserDetail" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_size_xxl">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_avatar"
+                android:layout_width="@dimen/poi_photo_edit_view_l"
+                android:layout_height="@dimen/poi_photo_edit_view_l"
+                app:civ_border_width="1.5dp"
+                app:civ_border_color="@color/md_grey_300"
+                app:civ_circle_background_color="@color/md_grey_200"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Vincent Chang"
+                android:textSize="@dimen/font_text_size_m"
+                android:textColor="@color/md_grey_500"
+                android:text="@{profile.name}"
+                android:layout_marginTop="@dimen/padding_size_l"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/image_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_favorite"
+                android:layout_width="@dimen/icon_common_size"
+                android:layout_height="@dimen/icon_common_size"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="@dimen/padding_size_m"
+                app:srcCompat="@drawable/selector_favorite"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_name" />
+
+            <TextView
+                android:id="@+id/text_bio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_m"
+                tools:text="000000000"
+                android:textSize="@dimen/font_text_size_m"
+                android:textColor="@color/md_grey_600"
+                android:text="@{profile.getBio()}"
+                android:gravity="center"
+                android:visibility="@{profile.getBioVisibility(), default=gone}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_favorite" />
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/padding_size_xl"
+                android:background="@color/md_grey_300"
+                app:layout_constraintTop_toBottomOf="@+id/text_bio"
+                app:layout_goneMarginTop="@dimen/padding_size_xl"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_user"
+                android:layout_width="@dimen/font_text_size_xl"
+                android:layout_height="@dimen/font_text_size_xl"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                android:layout_marginStart="@dimen/padding_size_xl"
+                app:srcCompat="@drawable/ic_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_divider" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_siteAdminBadge"
+                android:layout_width="@dimen/font_text_size_m"
+                android:layout_height="@dimen/font_text_size_m"
+                android:layout_marginStart="@dimen/padding_size_m"
+                android:visibility="@{profile.getSiteAdminVisibility(), default=gone}"
+                app:srcCompat="@drawable/ic_site_admin_badge"
+                app:layout_constraintTop_toTopOf="@+id/image_user"
+                app:layout_constraintBottom_toBottomOf="@+id/image_user"
+                app:layout_constraintStart_toEndOf="@+id/image_user"/>
+
+            <TextView
+                android:id="@+id/text_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="vincent"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_700"
+                android:text="@{profile.login}"
+                android:layout_marginStart="@dimen/padding_size_m"
+                app:layout_constraintTop_toTopOf="@+id/image_user"
+                app:layout_constraintBottom_toBottomOf="@+id/image_user"
+                app:layout_constraintStart_toEndOf="@+id/image_siteAdminBadge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_goneMarginStart="@dimen/padding_size_xxl"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_location"
+                android:layout_width="@dimen/font_text_size_xl"
+                android:layout_height="@dimen/font_text_size_xl"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                app:srcCompat="@drawable/ic_location"
+                app:layout_constraintStart_toStartOf="@+id/image_user"
+                app:layout_constraintTop_toBottomOf="@+id/image_user" />
+
+            <TextView
+                android:id="@+id/text_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Taiwan"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_700"
+                android:text="@{profile.location}"
+                app:layout_constraintTop_toTopOf="@+id/image_location"
+                app:layout_constraintBottom_toBottomOf="@+id/image_location"
+                app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_link"
+                android:layout_width="@dimen/font_text_size_xl"
+                android:layout_height="@dimen/font_text_size_xl"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                app:srcCompat="@drawable/ic_link"
+                app:layout_constraintStart_toStartOf="@+id/image_user"
+                app:layout_constraintTop_toBottomOf="@+id/image_location" />
+
+            <TextView
+                android:id="@+id/text_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="https://www.google.com"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_700"
+                android:text="@{profile.blog}"
+                android:autoLink="all"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toTopOf="@+id/image_link"
+                app:layout_constraintBottom_toBottomOf="@+id/image_link"
+                app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_group"
+                android:layout_width="@dimen/font_text_size_xl"
+                android:layout_height="@dimen/font_text_size_xl"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                android:visibility="@{profile.getGroupVisibility()}"
+                app:srcCompat="@drawable/ic_group"
+                app:layout_constraintStart_toStartOf="@+id/image_user"
+                app:layout_constraintTop_toBottomOf="@+id/image_link" />
+
+            <TextView
+                android:id="@+id/text_followers"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="@string/following_and_followed"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_600"
+                android:visibility="@{profile.getGroupVisibility()}"
+                app:layout_constraintTop_toTopOf="@+id/image_group"
+                app:layout_constraintBottom_toBottomOf="@+id/image_group"
+                app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_follower"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_s"
+                android:scrollbars="vertical"
+                android:visibility="@{profile.getGroupVisibility()}"
+                app:layout_constraintTop_toBottomOf="@+id/text_followers"
+                app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
