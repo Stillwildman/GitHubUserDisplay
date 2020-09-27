@@ -24,7 +24,7 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
 
     protected abstract fun init()
 
-    private lateinit var mBinding: bindingView
+    protected lateinit var mBinding: bindingView
 
     private lateinit var fragmentCallback : FragmentCallback
 
@@ -93,6 +93,10 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
         Log.d(TAG, "onResume!!!")
 
         setActivityInterface()
+    }
+
+    override fun onMenuOptionClick(itemId: Int) {
+        Log.i(TAG, "Fragment onMenuOptionClick: $itemId")
     }
 
     override fun onPause() {

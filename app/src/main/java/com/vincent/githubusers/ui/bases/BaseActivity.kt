@@ -2,8 +2,10 @@ package com.vincent.githubusers.ui.bases
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.vincent.githubusers.R
@@ -19,6 +21,8 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
     protected val TAG = javaClass.simpleName
 
     protected abstract fun getLayoutId(): Int
+
+    protected abstract fun getToolbar(): Toolbar?
 
     protected abstract fun getFragmentContainerId(): Int
 
@@ -37,11 +41,33 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
 
         setContentView(getLayoutId())
 
+        initToolbar()
         initFragmentManager()
 
         init()
 
         Log.d(TAG, "onCreate!!!")
+    }
+
+    private fun initToolbar() {
+        getToolbar()?.apply {
+            setSupportActionBar(this)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayShowHomeEnabled(true)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i(TAG, "onMenuOptionClick: ${item.itemId}")
+
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            else -> fragmentInterface?.onMenuOptionClick(item.itemId)
+        }
+
+        return true
     }
 
     override fun setFragmentInterface(fragmentInterface: FragmentInterface) {

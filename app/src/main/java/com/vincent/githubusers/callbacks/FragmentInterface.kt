@@ -13,4 +13,5 @@ interface FragmentInterface {
      */
     fun onBackKeyPressed(): Boolean
 
+    fun onMenuOptionClick(itemId: Int)
 }

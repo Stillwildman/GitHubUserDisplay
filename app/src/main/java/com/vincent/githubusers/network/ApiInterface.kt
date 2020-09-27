@@ -15,6 +15,6 @@ interface ApiInterface {
     fun getPaginatedUsers(
         @Query("since") since: Int,
         @Query("per_page") perPage: Int
-    ): Call<ItemUser>
+    ): Call<List<ItemUser>>
 
 }

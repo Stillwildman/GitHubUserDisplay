@@ -8,4 +8,6 @@ object Const {
     const val BACK_USER_LIST = "BackUserList"
     const val BACK_USER_DETAIL = "BackUserDetail"
 
+    const val TOOLBAR_BACK = -1
+
 }

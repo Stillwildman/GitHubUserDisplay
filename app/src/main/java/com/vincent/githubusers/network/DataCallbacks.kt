@@ -51,7 +51,7 @@ object DataCallbacks {
         })
     }
 
-    fun getUsers(since: Int, perPage: Int, dataGetCallback: OnDataGetCallback<ItemUser>, loadingCallback: OnLoadingCallback? = null) {
+    fun getUsers(since: Int, perPage: Int, dataGetCallback: OnDataGetCallback<List<ItemUser>>, loadingCallback: OnLoadingCallback? = null) {
         val call = getApiInterface(ApiUrls.API_BASE_GITHUB).getPaginatedUsers(since, perPage)
         enqueue(call, dataGetCallback, loadingCallback)
     }
