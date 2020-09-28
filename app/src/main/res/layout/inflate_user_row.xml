@@ -7,6 +7,10 @@
             type="com.vincent.githubusers.callbacks.OnUserClickCallback" />
 
         <variable
+            name="favoriteCallback"
+            type="com.vincent.githubusers.callbacks.OnFavoriteClickCallback" />
+
+        <variable
             name="user"
             type="com.vincent.githubusers.model.items.ItemUser"/>
     </data>
@@ -56,7 +60,7 @@
             android:layout_width="@dimen/font_text_size_m"
             android:layout_height="@dimen/font_text_size_m"
             app:srcCompat="@drawable/ic_site_admin_badge"
-            android:visibility="@{user.getSiteAdminVisibility(), default=gone}"
+            android:visibility="@{user.getSiteAdminVisibility, default=gone}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/image_avatar"
             app:layout_constraintStart_toStartOf="@+id/image_avatar"
@@ -89,7 +93,8 @@
             app:layout_constraintStart_toEndOf="@+id/text_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{(v) -> favoriteCallback.onFavoriteClick(user, v)}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

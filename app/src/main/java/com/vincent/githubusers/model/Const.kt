@@ -10,6 +10,6 @@ object Const {
 
     const val BUNDLE_LOGIN = "login"
 
-    const val TOOLBAR_BACK = -1
+    const val MAX_SIZE_OF_PER_PAGE = 100
 
 }

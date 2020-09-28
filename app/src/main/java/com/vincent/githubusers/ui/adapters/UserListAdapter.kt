@@ -7,15 +7,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.vincent.githubusers.R
+import com.vincent.githubusers.callbacks.FavoriteListInterface
+import com.vincent.githubusers.callbacks.OnFavoriteClickCallback
 import com.vincent.githubusers.callbacks.OnUserClickCallback
 import com.vincent.githubusers.databinding.InflateUserRowBinding
 import com.vincent.githubusers.model.items.ItemUser
-import com.vincent.githubusers.ui.bases.BaseBindingRecycler
+import com.vincent.githubusers.ui.bases.BasePagingBindingRecycler
 
 /**
  * Created by Vincent on 2020/9/26.
  */
-class UserListAdapter(private val clickCallback: OnUserClickCallback) : BaseBindingRecycler<ItemUser, InflateUserRowBinding>(
+class UserListAdapter(
+    private val clickCallback: OnUserClickCallback,
+    private val favoriteCallback: OnFavoriteClickCallback,
+    private val favoriteListInterface: FavoriteListInterface
+) : BasePagingBindingRecycler<ItemUser, InflateUserRowBinding>(
     object : DiffUtil.ItemCallback<ItemUser>() {
         override fun areItemsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
             return oldItem.id == newItem.id
@@ -24,8 +30,8 @@ class UserListAdapter(private val clickCallback: OnUserClickCallback) : BaseBind
         override fun areContentsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
             return oldItem.id == newItem.id && oldItem.login == newItem.login
         }
-    }) {
-
+    })
+{
     private val options: RequestOptions by lazy {
         RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).placeholder(R.drawable.ic_place_holder_circle).fitCenter()
     }
@@ -40,8 +46,12 @@ class UserListAdapter(private val clickCallback: OnUserClickCallback) : BaseBind
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateUserRowBinding, position: Int) {
         getItem(position)?.let {
-            bindingView.user = it
-            bindingView.clickCallback = clickCallback
+            bindingView.run {
+                user = it
+                clickCallback = this@UserListAdapter.clickCallback
+                favoriteCallback = this@UserListAdapter.favoriteCallback
+                buttonFavorite.isSelected = it.isUserAdded(favoriteListInterface)
+            }
 
             Glide.with(holder.itemView)
                 .load(it.avatar_url)
@@ -51,6 +61,12 @@ class UserListAdapter(private val clickCallback: OnUserClickCallback) : BaseBind
     }
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateUserRowBinding, position: Int, payload: Any?) {
+        getItem(position)?.let {
+            bindingView.buttonFavorite.isSelected = it.isUserAdded(favoriteListInterface)
+        }
+    }
 
+    fun notifyFavoritesChanged() {
+        notifyItemRangeChanged(0, itemCount, true)
     }
 }

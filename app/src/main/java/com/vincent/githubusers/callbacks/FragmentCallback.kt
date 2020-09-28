@@ -1,5 +1,6 @@
 package com.vincent.githubusers.callbacks
 
+import android.view.View
 import androidx.fragment.app.Fragment
 
 /**
@@ -14,4 +15,6 @@ interface FragmentCallback {
     fun onFragmentLoading()
 
     fun onFragmentLoadingDone()
+
+    fun getToolbarLoadingCircle(): View?
 }

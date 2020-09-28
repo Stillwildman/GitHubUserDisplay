@@ -4,23 +4,29 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * BaseBindingRecycler
+ * BasePagingBindingRecycler
  *
- * è®“æœ‰ä½¿ç”¨DataBindingçš„RecyclerView.Adapterç¹¼æ‰¿æ­¤é¡ï¼Œå¯ä»¥æ›´ç°¡æ˜“åœ°ä½¿ç”¨DataBinding
+ * Åı¦³¨Ï¥ÎDataBindingªºRecyclerView.AdapterÄ~©Ó¦¹Ãş¡A¥i¥H§óÂ²©ö¦a¨Ï¥ÎDataBinding
  *
- * @param BindingView ç¶å®šçš„ViewDataBinding
+ * ³o¸Ì±NAdapter¤É¯Å¬°PagedListAdapter¡A¶·pass¤@­ÓDiffUtil.ItemCallback¶i¨Ó
+ *
+ * @param Item Data type of PagedList
+ * @param BindingView ¸j©wªºViewDataBinding
  */
-abstract class BaseBindingRecycler<BindingView : ViewDataBinding> protected constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BasePagingBindingRecycler<Item, BindingView : ViewDataBinding> protected constructor(diffCallback: DiffUtil.ItemCallback<Item>)
+    : PagedListAdapter<Item, RecyclerView.ViewHolder>(diffCallback) {
 
     protected abstract fun getLayoutId(): Int
 
-    // å–ä»£åŸæœ¬çš„onBindViewHolderï¼Œç”¨æ„ç‚ºæŠŠbindingViewå¸¶å‡ºä¾†çµ¦å­é¡åˆ¥ä½¿ç”¨
+    // ¨ú¥N­ì¥»ªºonBindViewHolder¡A¥Î·N¬°§âbindingView±a¥X¨Óµ¹¤lÃş§O¨Ï¥Î
     protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: BindingView, position: Int)
 
-    // åŒä¸Šï¼ŒåŒæ™‚ä¹Ÿé †ä¾¿æŠŠpayloadå¾Listä¸­å–å‡º
+    // ¦P¤W¡A¦P®É¤]¶¶«K§âpayload±qList¤¤¨ú¥X
     protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: BindingView, position: Int, payload: Any?)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,7 +38,7 @@ abstract class BaseBindingRecycler<BindingView : ViewDataBinding> protected cons
 
     @Suppress("UNCHECKED_CAST", "RemoveRedundantQualifierName")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        onBindingViewHolder(holder, (holder as BaseBindingRecycler<BindingView>.BindingViewHolder).bindingView, position)
+        onBindingViewHolder(holder, (holder as BasePagingBindingRecycler<Item, BindingView>.BindingViewHolder).bindingView, position)
     }
 
     @Suppress("UNCHECKED_CAST", "RemoveRedundantQualifierName")
@@ -41,7 +47,7 @@ abstract class BaseBindingRecycler<BindingView : ViewDataBinding> protected cons
             onBindViewHolder(holder, position)
         }
         else {
-            onBindingViewHolder(holder, (holder as BaseBindingRecycler<BindingView>.BindingViewHolder).bindingView, position, payloads[0])
+            onBindingViewHolder(holder, (holder as BasePagingBindingRecycler<Item, BindingView>.BindingViewHolder).bindingView, position, payloads[0])
         }
     }
 }

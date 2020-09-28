@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="userName"
+            type="String" />
+
+        <variable
+            name="userClickCallback"
+            type="com.vincent.githubusers.callbacks.OnUserClickCallback" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/padding_size_m"
+        android:paddingBottom="@dimen/padding_size_m" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_followerAvatar"
+            android:layout_width="@dimen/icon_common_size_l"
+            android:layout_height="@dimen/icon_common_size_l"
+            android:layout_marginEnd="@dimen/padding_size_l"
+            app:civ_border_width="1.5dp"
+            app:civ_border_color="@color/md_grey_300"
+            app:civ_circle_background_color="@color/md_grey_200" />
+
+        <TextView
+            android:id="@+id/text_followedUser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_size_l"
+            android:paddingEnd="@dimen/padding_size_l"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground"
+            tools:text="vincent"
+            android:textSize="@dimen/font_text_size_s"
+            android:textStyle="bold"
+            android:text="@{userName}"
+            android:onClick="@{() -> userClickCallback.onLoginGet(userName)}"/>
+
+    </LinearLayout>
+
+</layout>

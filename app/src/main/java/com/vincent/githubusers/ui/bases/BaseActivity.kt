@@ -31,6 +31,7 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
     protected abstract fun init()
 
     private val fm by lazy { supportFragmentManager }
+    private var lastEntryCount = 0
 
     private var fragmentInterface: FragmentInterface? = null
 
@@ -82,6 +83,16 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
 
     override fun onBackStackChanged() {
         Log.i(TAG, "onBackStackChanged!! Count: ${fm.backStackEntryCount}")
+
+        if (fm.backStackEntryCount < lastEntryCount) {
+            resumeFragment()
+        }
+
+        lastEntryCount = fm.backStackEntryCount
+    }
+
+    private fun resumeFragment() {
+        fm.findFragmentById(getFragmentContainerId())?.onResume()
     }
 
     protected fun openFragment(instance: Fragment, useReplace: Boolean, backName: String?) {
@@ -99,6 +110,10 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
 
     override fun onFragmentOpen(instance: Fragment, useReplace: Boolean, backName: String?) {
         openFragment(instance, useReplace, backName)
+    }
+
+    override fun getToolbarLoadingCircle(): View? {
+        return getLoadingView()
     }
 
     override fun onFragmentLoading() {

@@ -11,4 +11,7 @@ object ApiUrls {
 
     const val API_GITHUB_USERS_DETAIL = "users/{userName}"
 
+    const val API_USER_FOLLOWING = "users/{userName}/following"
+
+    const val API_USER_FOLLOWERS = "users/{userName}/followers"
 }

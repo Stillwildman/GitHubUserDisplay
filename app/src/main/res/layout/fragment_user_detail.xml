@@ -31,7 +31,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0.05" />
+                app:layout_constraintVertical_bias="0.03" />
 
             <TextView
                 android:id="@+id/text_name"
@@ -67,9 +67,9 @@
                 tools:text="000000000"
                 android:textSize="@dimen/font_text_size_m"
                 android:textColor="@color/md_grey_600"
-                android:text="@{profile.getBio()}"
+                android:text="@{profile.getBio}"
                 android:gravity="center"
-                android:visibility="@{profile.getBioVisibility(), default=gone}"
+                android:visibility="@{profile.getBioVisibility, default=gone}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_favorite" />
@@ -98,7 +98,7 @@
                 android:layout_width="@dimen/font_text_size_m"
                 android:layout_height="@dimen/font_text_size_m"
                 android:layout_marginStart="@dimen/padding_size_m"
-                android:visibility="@{profile.getSiteAdminVisibility(), default=gone}"
+                android:visibility="@{profile.getSiteAdminVisibility, default=gone}"
                 app:srcCompat="@drawable/ic_site_admin_badge"
                 app:layout_constraintTop_toTopOf="@+id/image_user"
                 app:layout_constraintBottom_toBottomOf="@+id/image_user"
@@ -171,7 +171,7 @@
                 android:layout_width="@dimen/font_text_size_xl"
                 android:layout_height="@dimen/font_text_size_xl"
                 android:layout_marginTop="@dimen/padding_size_xxl"
-                android:visibility="@{profile.getGroupVisibility()}"
+                android:visibility="@{profile.getGroupVisibility}"
                 app:srcCompat="@drawable/ic_group"
                 app:layout_constraintStart_toStartOf="@+id/image_user"
                 app:layout_constraintTop_toBottomOf="@+id/image_link" />
@@ -183,7 +183,7 @@
                 tools:text="@string/following_and_followed"
                 android:textSize="@dimen/font_text_size_xs"
                 android:textColor="@color/md_grey_600"
-                android:visibility="@{profile.getGroupVisibility()}"
+                android:visibility="@{profile.getGroupVisibility}"
                 app:layout_constraintTop_toTopOf="@+id/image_group"
                 app:layout_constraintBottom_toBottomOf="@+id/image_group"
                 app:layout_constraintStart_toStartOf="@+id/text_login"
@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_size_s"
                 android:scrollbars="vertical"
-                android:visibility="@{profile.getGroupVisibility()}"
+                android:visibility="@{profile.getGroupVisibility}"
                 app:layout_constraintTop_toBottomOf="@+id/text_followers"
                 app:layout_constraintStart_toStartOf="@+id/text_login"
                 app:layout_constraintEnd_toEndOf="parent" />

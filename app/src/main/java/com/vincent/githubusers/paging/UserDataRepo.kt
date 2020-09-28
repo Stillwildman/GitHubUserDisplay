@@ -19,7 +19,7 @@ class UserDataRepo(private val statusCallback: PagingStatusCallback?) : BasePagi
                 .build()
 
     override fun getPerPageSize(): Int {
-        return 20
+        return 40
     }
 
     override fun getInitialPageKey(): Int {

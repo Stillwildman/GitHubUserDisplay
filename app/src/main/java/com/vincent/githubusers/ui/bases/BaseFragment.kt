@@ -67,6 +67,10 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
         fragmentCallback.onFragmentOpen(instance, useReplace, backName)
     }
 
+    protected fun getToolbarLoadingCircle(): View? {
+        return fragmentCallback.getToolbarLoadingCircle()
+    }
+
     protected fun showLoading() {
         fragmentCallback.onFragmentLoading()
     }

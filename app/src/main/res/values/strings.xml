@@ -5,4 +5,7 @@
 
     <string name="following_and_followed">%1$d people that followed by %2$s and also been followed:</string>
 
+    <string name="client_id">22161577ccd83f910407</string>
+    <string name="client_secret">86be8280bd716c9ead16b2f89d71982c8c92a807</string>
+
 </resources>

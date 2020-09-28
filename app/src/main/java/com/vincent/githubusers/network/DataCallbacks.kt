@@ -4,6 +4,7 @@ import android.util.Log
 import com.vincent.githubusers.callbacks.OnDataGetCallback
 import com.vincent.githubusers.callbacks.OnLoadingCallback
 import com.vincent.githubusers.model.ApiUrls
+import com.vincent.githubusers.model.items.ItemFollower
 import com.vincent.githubusers.model.items.ItemUser
 import com.vincent.githubusers.model.items.ItemUserDetail
 import retrofit2.Call
@@ -18,7 +19,7 @@ object DataCallbacks {
 
     private const val TAG = "DataCallbacks"
 
-    private fun getApiInterface(baseUrl: String): ApiInterface {
+    private fun getApiInterface(baseUrl: String = ApiUrls.BASE_GITHUB_API): ApiInterface {
         return RetrofitAgent.getRetrofit(baseUrl).create(ApiInterface::class.java)
     }
 
@@ -53,12 +54,22 @@ object DataCallbacks {
     }
 
     fun getUsers(since: Int, perPage: Int, dataGetCallback: OnDataGetCallback<List<ItemUser>>, loadingCallback: OnLoadingCallback? = null) {
-        val call = getApiInterface(ApiUrls.BASE_GITHUB_API).getPaginatedUsers(since, perPage)
+        val call = getApiInterface().getPaginatedUsers(since, perPage)
         enqueue(call, dataGetCallback, loadingCallback)
     }
 
     fun getUserDetail(login: String, dataGetCallback: OnDataGetCallback<ItemUserDetail>, loadingCallback: OnLoadingCallback?) {
-        val call = getApiInterface(ApiUrls.BASE_GITHUB_API).getUserDetail(login)
+        val call = getApiInterface().getUserDetail(login)
+        enqueue(call, dataGetCallback, loadingCallback)
+    }
+
+    fun getUserFollowing(login: String, page: Int, dataGetCallback: OnDataGetCallback<ArrayList<ItemFollower>>, loadingCallback: OnLoadingCallback?) {
+        val call = getApiInterface().getUserFollowing(login, page)
+        enqueue(call, dataGetCallback, loadingCallback)
+    }
+
+    fun getUserFollowers(login: String, page: Int, dataGetCallback: OnDataGetCallback<ArrayList<ItemFollower>>, loadingCallback: OnLoadingCallback?) {
+        val call = getApiInterface().getUserFollowers(login, page)
         enqueue(call, dataGetCallback, loadingCallback)
     }
 

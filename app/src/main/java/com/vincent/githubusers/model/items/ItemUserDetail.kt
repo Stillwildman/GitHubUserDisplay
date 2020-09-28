@@ -51,11 +51,11 @@ data class ItemUserDetail(
         return if (site_admin) View.VISIBLE else View.GONE
     }
 
-    fun hasBidirectionalFollowed(): Boolean {
+    fun mightHaveBidirectionalFollowed(): Boolean {
         return following != 0 && followers != 0
     }
 
     fun getGroupVisibility(): Int {
-        return if (hasBidirectionalFollowed()) View.VISIBLE else View.GONE
+        return if (mightHaveBidirectionalFollowed()) View.VISIBLE else View.GONE
     }
 }
