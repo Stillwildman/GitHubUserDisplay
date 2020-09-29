@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "83d0bacfa126286d633a77e55c4a0483",
+    "identityHash": "526755f082b68346cf29ba9ee836a6c6",
     "entities": [
       {
         "tableName": "Users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`AvatarUrl` TEXT NOT NULL, `Id` INTEGER NOT NULL, `Login` TEXT NOT NULL, PRIMARY KEY(`Id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`AvatarUrl` TEXT NOT NULL, `Id` INTEGER NOT NULL, `Login` TEXT NOT NULL, `IsSiteAdmin` INTEGER NOT NULL, PRIMARY KEY(`Id`))",
         "fields": [
           {
             "fieldPath": "avatar_url",
@@ -25,6 +25,12 @@
             "columnName": "Login",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "site_admin",
+            "columnName": "IsSiteAdmin",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -40,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '83d0bacfa126286d633a77e55c4a0483')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '526755f082b68346cf29ba9ee836a6c6')"
     ]
   }
 }

@@ -3,7 +3,6 @@ package com.vincent.githubusers.model.items
 import android.view.View
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.vincent.githubusers.callbacks.FavoriteListInterface
 import com.vincent.githubusers.model.DatabaseParams
@@ -23,7 +22,7 @@ data class ItemUser(
     @ColumnInfo(name = DatabaseParams.COLUMN_LOGIN)
     var login: String,
 
-    @Ignore
+    @ColumnInfo(name = DatabaseParams.COLUMN_IS_SITE_ADMIN)
     var site_admin: Boolean,
 ) {
     constructor() : this("", 0, "", false)
@@ -31,9 +30,6 @@ data class ItemUser(
     fun getSiteAdminVisibility(): Int = if (site_admin) View.VISIBLE else View.GONE
 
     fun isUserAdded(favoriteListInterface: FavoriteListInterface): Boolean {
-        favoriteListInterface.getCurrentFavoriteUserList().forEach { item ->
-            if (item.id == id) return true
-        }
-        return false
+        return favoriteListInterface.getCurrentFavoriteUserList().contains(this)
     }
 }

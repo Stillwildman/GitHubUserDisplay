@@ -18,4 +18,6 @@ object DatabaseParams : BaseColumns {
     const val COLUMN_LOGIN = "Login"
 
     const val COLUMN_AVATAR = "AvatarUrl"
+
+    const val COLUMN_IS_SITE_ADMIN = "IsSiteAdmin"
 }
