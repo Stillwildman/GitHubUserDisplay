@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">GithubUsers</string>
 
-    <string name="client_id">22161577ccd83f910407</string>
-    <string name="client_secret">86be8280bd716c9ead16b2f89d71982c8c92a807</string>
-
     <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
 
     <string name="followers_and_following">Followers:%1$d　Following:%2$d</string>
