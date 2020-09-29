@@ -7,6 +7,7 @@ object Const {
 
     const val BACK_USER_LIST = "BackUserList"
     const val BACK_USER_DETAIL = "BackUserDetail"
+    const val BACK_FAVORITES = "BackFavorites"
 
     const val BUNDLE_LOGIN = "login"
 

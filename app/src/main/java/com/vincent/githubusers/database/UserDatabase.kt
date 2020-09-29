@@ -10,6 +10,7 @@ import com.vincent.githubusers.AppController
 import com.vincent.githubusers.database.dao.DaoUsers
 import com.vincent.githubusers.model.DatabaseParams
 import com.vincent.githubusers.model.items.ItemUser
+import java.lang.ref.WeakReference
 
 /**
  * Created by Vincent on 2020/9/28.
@@ -18,7 +19,18 @@ import com.vincent.githubusers.model.items.ItemUser
 abstract class UserDatabase : RoomDatabase() {
 
     companion object {
-        fun getInstance() : UserDatabase {
+        private object SingleDB {
+            var INSTANCE: WeakReference<UserDatabase>? = null
+        }
+
+        fun getInstance(): UserDatabase {
+            if (SingleDB.INSTANCE == null || SingleDB.INSTANCE?.get() == null) {
+                SingleDB.INSTANCE = WeakReference(getUserDatabase())
+            }
+            return SingleDB.INSTANCE?.get()!!
+        }
+
+        private fun getUserDatabase() : UserDatabase {
             return Room.databaseBuilder(AppController.instance.applicationContext, UserDatabase::class.java, DatabaseParams.DB_USER)
                 .addMigrations(MIGRATION_1_2)
                 .build()

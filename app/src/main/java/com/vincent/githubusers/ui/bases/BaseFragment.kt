@@ -22,6 +22,8 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
 
     protected abstract fun getLayoutId(): Int
 
+    protected abstract fun getMenuOptions(): IntArray?
+
     protected abstract fun init()
 
     protected lateinit var mBinding: bindingView
@@ -63,6 +65,10 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
         fragmentCallback.setFragmentInterface(this)
     }
 
+    private fun setMenuOptions() {
+        fragmentCallback.onFragmentSettingMenu(getMenuOptions())
+    }
+
     protected fun openFragment(instance: Fragment, useReplace: Boolean, backName: String?) {
         fragmentCallback.onFragmentOpen(instance, useReplace, backName)
     }
@@ -97,6 +103,7 @@ abstract class BaseFragment<bindingView : ViewDataBinding> : Fragment(), Fragmen
         Log.d(TAG, "onResume!!!")
 
         setActivityInterface()
+        setMenuOptions()
     }
 
     override fun onMenuOptionClick(itemId: Int) {

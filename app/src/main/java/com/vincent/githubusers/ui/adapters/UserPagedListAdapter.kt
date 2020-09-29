@@ -1,5 +1,7 @@
 package com.vincent.githubusers.ui.adapters
 
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -10,45 +12,44 @@ import com.vincent.githubusers.callbacks.OnFavoriteClickCallback
 import com.vincent.githubusers.callbacks.OnUserClickCallback
 import com.vincent.githubusers.databinding.InflateUserRowBinding
 import com.vincent.githubusers.model.items.ItemUser
-import com.vincent.githubusers.ui.bases.BaseBindingRecycler
+import com.vincent.githubusers.ui.bases.BasePagingBindingRecycler
 
 /**
  * Created by Vincent on 2020/9/26.
  */
-class UserListAdapter(
+class UserPagedListAdapter(
     private val clickCallback: OnUserClickCallback,
     private val favoriteCallback: OnFavoriteClickCallback,
     private val favoriteListInterface: FavoriteListInterface
-) : BaseBindingRecycler<InflateUserRowBinding>()
-{
-    private val userList = mutableListOf<ItemUser>()
+) : BasePagingBindingRecycler<ItemUser, InflateUserRowBinding>(
+    object : DiffUtil.ItemCallback<ItemUser>() {
+        override fun areItemsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
+            return oldItem.id == newItem.id
+        }
 
+        override fun areContentsTheSame(oldItem: ItemUser, newItem: ItemUser): Boolean {
+            return oldItem.id == newItem.id && oldItem.login == newItem.login
+        }
+    })
+{
     private val options: RequestOptions by lazy {
         RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).placeholder(R.drawable.ic_place_holder_circle).fitCenter()
     }
 
     override fun getLayoutId(): Int = R.layout.inflate_user_row
 
-    fun updateList(userList: List<ItemUser>?) {
-        userList?.run {
-            this@UserListAdapter.userList.let {
-                if (it.isEmpty()) {
-                    it.addAll(this)
-                }
-                else {
-                    it.retainAll(this)
-                }
-            }
+    fun updateList(pagedUserList: PagedList<ItemUser>?) {
+        pagedUserList?.run {
+            submitList(this)
         }
-        notifyDataSetChanged()
     }
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateUserRowBinding, position: Int) {
-        userList[position].let {
+        getItem(position)?.let {
             bindingView.run {
                 user = it
-                clickCallback = this@UserListAdapter.clickCallback
-                favoriteCallback = this@UserListAdapter.favoriteCallback
+                clickCallback = this@UserPagedListAdapter.clickCallback
+                favoriteCallback = this@UserPagedListAdapter.favoriteCallback
                 buttonFavorite.isSelected = it.isUserAdded(favoriteListInterface)
             }
 
@@ -60,10 +61,12 @@ class UserListAdapter(
     }
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateUserRowBinding, position: Int, payload: Any?) {
-        userList[position].let {
+        getItem(position)?.let {
             bindingView.buttonFavorite.isSelected = it.isUserAdded(favoriteListInterface)
         }
     }
 
-    override fun getItemCount(): Int = userList.size
+    fun notifyFavoritesChanged() {
+        notifyItemRangeChanged(0, itemCount, true)
+    }
 }

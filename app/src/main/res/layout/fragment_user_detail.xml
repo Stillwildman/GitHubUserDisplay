@@ -171,7 +171,6 @@
                 android:layout_width="@dimen/font_text_size_xl"
                 android:layout_height="@dimen/font_text_size_xl"
                 android:layout_marginTop="@dimen/padding_size_xxl"
-                android:visibility="@{profile.getGroupVisibility}"
                 app:srcCompat="@drawable/ic_group"
                 app:layout_constraintStart_toStartOf="@+id/image_user"
                 app:layout_constraintTop_toBottomOf="@+id/image_link" />
@@ -180,13 +179,26 @@
                 android:id="@+id/text_followers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="@string/following_and_followed"
+                tools:text="@string/followers_and_following"
                 android:textSize="@dimen/font_text_size_xs"
                 android:textColor="@color/md_grey_600"
-                android:visibility="@{profile.getGroupVisibility}"
+                android:text="@{String.format(@string/followers_and_following, profile.followers, profile.following)}"
                 app:layout_constraintTop_toTopOf="@+id/image_group"
                 app:layout_constraintBottom_toBottomOf="@+id/image_group"
                 app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/text_bidirectionalFollowed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_m"
+                tools:text="@string/bidirectional_followed_number"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_600"
+                android:visibility="@{profile.getGroupVisibility}"
+                app:layout_constraintTop_toBottomOf="@+id/image_group"
+                app:layout_constraintStart_toStartOf="@+id/image_group"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -196,9 +208,18 @@
                 android:layout_marginTop="@dimen/padding_size_s"
                 android:scrollbars="vertical"
                 android:visibility="@{profile.getGroupVisibility}"
-                app:layout_constraintTop_toBottomOf="@+id/text_followers"
-                app:layout_constraintStart_toStartOf="@+id/text_login"
+                app:layout_constraintTop_toBottomOf="@+id/text_bidirectionalFollowed"
+                app:layout_constraintStart_toEndOf="@+id/image_group"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/loadingCircle"
+                android:layout_width="@dimen/icon_common_size"
+                android:layout_height="@dimen/icon_common_size"
+                android:layout_marginTop="@dimen/padding_size_l"
+                app:layout_constraintTop_toBottomOf="@+id/image_group"
+                app:layout_constraintStart_toStartOf="@+id/text_login"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

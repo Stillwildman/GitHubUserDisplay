@@ -13,7 +13,7 @@ import com.vincent.githubusers.model.items.ItemUser
  */
 class FavoritePresenter {
 
-    fun switchTheFavoriteState(userItem: ItemUser, favoriteView: View) {
+    fun switchTheFavoriteState(userItem: ItemUser, favoriteView: View? = null) {
         DBAsyncTask(object : OnProcessingCallback {
             override fun onProcessing(): Boolean {
                 val db = UserDatabase.getInstance()
@@ -34,7 +34,7 @@ class FavoritePresenter {
                 Log.i("FavoritePresenter", "${userItem.login} switchFavoriteState isSuccess: $isSuccess")
 
                 if (isSuccess) {
-                    favoriteView.run {
+                    favoriteView?.run {
                         isSelected = !isSelected
                     }
                 }

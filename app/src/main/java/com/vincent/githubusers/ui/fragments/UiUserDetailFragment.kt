@@ -28,7 +28,6 @@ import com.vincent.githubusers.ui.bases.BaseFragment
 class UiUserDetailFragment private constructor() : BaseFragment<FragmentUserDetailBinding>(), UserProfileCallback, OnLoadingCallback, OnUserClickCallback {
 
     private val userProfilePresenter by lazy { UserProfilePresenter(this, this) }
-    private var userItem: ItemUser? = null
     private val favoritePresenter by lazy { FavoritePresenter() }
 
     companion object {
@@ -40,6 +39,8 @@ class UiUserDetailFragment private constructor() : BaseFragment<FragmentUserDeta
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_user_detail
+
+    override fun getMenuOptions(): IntArray? = null
 
     override fun init() {
         getUserDetail()
@@ -57,14 +58,15 @@ class UiUserDetailFragment private constructor() : BaseFragment<FragmentUserDeta
     }
 
     private fun getBidirectionalFollowedUsers(userDetail: ItemUserDetail) {
-        userProfilePresenter.getBidirectionalFollowedUsers(userDetail)
+        userProfilePresenter.getBidirectionalFollowedUsers(userDetail, object : OnLoadingCallback {
+            override fun getLoadingView(): View? = mBinding.loadingCircle
+        })
     }
 
     private fun setUserDetail(userDetail: ItemUserDetail) {
         mBinding.profile = userDetail
         showUserAvatar(userDetail.avatar_url)
 
-        userItem = ItemUser(userDetail.avatar_url, userDetail.id, userDetail.login, userDetail.site_admin)
         observeUserFavoriteState(userDetail.login)
 
         setFavoriteClickListener(ItemUser(userDetail.avatar_url, userDetail.id, userDetail.login, userDetail.site_admin))
@@ -80,14 +82,14 @@ class UiUserDetailFragment private constructor() : BaseFragment<FragmentUserDeta
     }
 
     private fun observeUserFavoriteState(login: String) {
-        UserDatabase.getInstance().getUsersDao().isUserAddedByLogin(login).observe(this, {isAdded ->
+        UserDatabase.getInstance().getUsersDao().isUserAddedByLogin(login).observe(this, { isAdded ->
             mBinding.buttonFavorite.isSelected = isAdded
         })
     }
 
     private fun setFavoriteClickListener(user: ItemUser) {
         mBinding.buttonFavorite.setOnClickListener {
-            favoritePresenter.switchTheFavoriteState(user, mBinding.buttonFavorite)
+            favoritePresenter.switchTheFavoriteState(user)
         }
     }
 
@@ -97,7 +99,7 @@ class UiUserDetailFragment private constructor() : BaseFragment<FragmentUserDeta
     }
 
     private fun setFollowedNumberText(number: Int) {
-        mBinding.textFollowers.text = AppController.instance.getString(R.string.following_and_followed, number, mBinding.profile?.login)
+        mBinding.textBidirectionalFollowed.text = AppController.instance.getString(R.string.bidirectional_followed_number, number, mBinding.profile?.login)
     }
 
     private fun setFollowedUsersRecycler(followedList: ArrayList<ItemFollower>) {

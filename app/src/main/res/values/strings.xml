@@ -1,11 +1,19 @@
 <resources>
     <string name="app_name">GithubUsers</string>
 
-    <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
-
-    <string name="following_and_followed">%1$d people that followed by %2$s and also been followed:</string>
-
     <string name="client_id">22161577ccd83f910407</string>
     <string name="client_secret">86be8280bd716c9ead16b2f89d71982c8c92a807</string>
 
+    <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
+
+    <string name="followers_and_following">Followers:%1$d　Following:%2$d</string>
+    <string name="bidirectional_followed_number">%1$d people that followed by %2$s and also been followed:</string>
+
+
+    <string name="authorization_token_is">token %s</string>
+
+    <string name="rate_limit_formation">Rate Limit\n%1$d/%2$d</string>
+
+    <string name="favorite_show_list">Show Favorites</string>
+    <string name="favorite_empty">No Favorites!</string>
 </resources>

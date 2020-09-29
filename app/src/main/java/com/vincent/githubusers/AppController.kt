@@ -5,9 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
+import org.greenrobot.eventbus.EventBus
 
 /**
  * <h1>AppController</h1>
@@ -27,6 +28,9 @@ class AppController : MultiDexApplication() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
     }
 
     override fun onCreate() {

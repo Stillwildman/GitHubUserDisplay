@@ -5,6 +5,7 @@ import com.vincent.githubusers.R
 import com.vincent.githubusers.model.ApiUrls
 import com.vincent.githubusers.model.Const
 import com.vincent.githubusers.model.items.ItemFollower
+import com.vincent.githubusers.model.items.ItemRateLimit
 import com.vincent.githubusers.model.items.ItemUser
 import com.vincent.githubusers.model.items.ItemUserDetail
 import retrofit2.Call
@@ -49,4 +50,7 @@ interface ApiInterface {
         @Query("client_id") clientId: String = AppController.instance.getString(R.string.client_id),
         @Query("client_secret") clientSecret: String = AppController.instance.getString(R.string.client_secret)
     ): Call<ArrayList<ItemFollower>>
+
+    @GET(ApiUrls.API_RATE_LIMIT)
+    fun getRateLimit(@Query("client_id") clientId: String = AppController.instance.getString(R.string.client_id)): Call<ItemRateLimit>
 }

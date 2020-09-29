@@ -40,6 +40,7 @@ object RetrofitAgent {
                     newBuilder().also {
                         it.header("accept", "application/vnd.github.v3+json")
                         it.header("User-Agent", AppController.instance.getString(R.string.app_name))
+                        it.header("Authorization", AppController.instance.getString(R.string.authorization_token_is, "9ae0659361a08ae373f58378e73521b9ccadacdb"))
                         it.method(method(), body())
                     }.build()
                 }

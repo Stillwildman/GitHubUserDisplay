@@ -5,8 +5,11 @@ import com.vincent.githubusers.callbacks.OnDataGetCallback
 import com.vincent.githubusers.callbacks.OnLoadingCallback
 import com.vincent.githubusers.model.ApiUrls
 import com.vincent.githubusers.model.items.ItemFollower
+import com.vincent.githubusers.model.items.ItemRateLimit
 import com.vincent.githubusers.model.items.ItemUser
 import com.vincent.githubusers.model.items.ItemUserDetail
+import okhttp3.Headers
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +28,7 @@ object DataCallbacks {
 
     private fun <Item> enqueue(call: Call<Item>, callback: OnDataGetCallback<Item>, loadingCallback: OnLoadingCallback? = null) {
         Log.i(TAG, "Call URL: " + call.request().url().toString())
+        Log.d(TAG, "Request Header:\n${call.request().headers()}")
 
         notifyNetworkEventStart(loadingCallback)
 
@@ -39,6 +43,8 @@ object DataCallbacks {
                 else {
                     callback.onDataGetFailed(response.message())
                 }
+
+                getRateLimitFromHeaders(response.headers())
 
                 notifyNetworkEventEnds(loadingCallback)
             }
@@ -71,6 +77,12 @@ object DataCallbacks {
     fun getUserFollowers(login: String, page: Int, dataGetCallback: OnDataGetCallback<ArrayList<ItemFollower>>, loadingCallback: OnLoadingCallback?) {
         val call = getApiInterface().getUserFollowers(login, page)
         enqueue(call, dataGetCallback, loadingCallback)
+    }
+
+    private fun getRateLimitFromHeaders(headers: Headers) {
+        ItemRateLimit(headers["X-RateLimit-Limit"], headers["X-RateLimit-Remaining"], headers["X-RateLimit-Reset"], headers["X-RateLimit-Used"]).let {
+            EventBus.getDefault().post(it)
+        }
     }
 
     private fun notifyNetworkEventStart(loadingCallback: OnLoadingCallback?) {

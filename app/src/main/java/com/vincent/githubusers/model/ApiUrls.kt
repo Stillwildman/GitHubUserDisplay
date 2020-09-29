@@ -14,4 +14,6 @@ object ApiUrls {
     const val API_USER_FOLLOWING = "users/{userName}/following"
 
     const val API_USER_FOLLOWERS = "users/{userName}/followers"
+
+    const val API_RATE_LIMIT = "rate_limit"
 }

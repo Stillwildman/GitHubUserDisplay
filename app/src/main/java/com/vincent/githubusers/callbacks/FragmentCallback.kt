@@ -12,6 +12,8 @@ interface FragmentCallback {
 
     fun onFragmentOpen(instance: Fragment, useReplace: Boolean, backName: String?)
 
+    fun onFragmentSettingMenu(actions: IntArray?)
+
     fun onFragmentLoading()
 
     fun onFragmentLoadingDone()

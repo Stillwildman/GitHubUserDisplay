@@ -16,8 +16,9 @@ import com.vincent.githubusers.databinding.FragmentUserListBinding
 import com.vincent.githubusers.model.Const
 import com.vincent.githubusers.model.items.ItemUser
 import com.vincent.githubusers.presenter.FavoritePresenter
-import com.vincent.githubusers.ui.adapters.UserListAdapter
+import com.vincent.githubusers.ui.adapters.UserPagedListAdapter
 import com.vincent.githubusers.ui.bases.BaseFragment
+import com.vincent.githubusers.utilities.MenuActions
 import com.vincent.githubusers.utilities.Utility
 import com.vincent.githubusers.viewmodel.UserListViewModel
 
@@ -34,9 +35,15 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
 
     override fun getLayoutId(): Int = R.layout.fragment_user_list
 
+    override fun getMenuOptions(): IntArray? = intArrayOf(MenuActions.ACTION_FAVORITES)
+
     override fun init() {
         initRecycler()
         initViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
         observeLiveFavoriteUserList()
     }
 
@@ -45,7 +52,7 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
             it.layoutManager = LinearLayoutManager(requireContext())
             it.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
 
-            it.adapter = UserListAdapter(this, this, this)
+            it.adapter = UserPagedListAdapter(this, this, this)
         }
     }
 
@@ -85,7 +92,7 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
     }
 
     override fun onFavoriteClick(userItem: ItemUser, favoriteView: View) {
-        favoritePresenter.switchTheFavoriteState(userItem, favoriteView)
+        favoritePresenter.switchTheFavoriteState(userItem)
     }
 
     private fun observeLiveFavoriteUserList() {
@@ -101,11 +108,20 @@ class UiUserListFragment : BaseFragment<FragmentUserListBinding>(), PagingStatus
         getUserListAdapter().notifyFavoritesChanged()
     }
 
-    private fun getUserListAdapter(): UserListAdapter = mBinding.recyclerUserList.adapter as UserListAdapter
+    private fun getUserListAdapter(): UserPagedListAdapter = mBinding.recyclerUserList.adapter as UserPagedListAdapter
 
-    override fun onResume() {
-        super.onResume()
-        observeLiveFavoriteUserList()
+    override fun onMenuOptionClick(itemId: Int) {
+        super.onMenuOptionClick(itemId)
+
+        when (itemId) {
+            MenuActions.ACTION_FAVORITES -> {
+                openFavoriteList()
+            }
+        }
+    }
+
+    private fun openFavoriteList() {
+        openFragment(UiFavoriteListFragment(), false, Const.BACK_FAVORITES)
     }
 
     override fun onBackKeyPressed(): Boolean = true

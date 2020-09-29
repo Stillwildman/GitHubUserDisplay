@@ -2,6 +2,7 @@ package com.vincent.githubusers.ui.bases
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.vincent.githubusers.R
 import com.vincent.githubusers.callbacks.FragmentCallback
 import com.vincent.githubusers.callbacks.FragmentInterface
+import com.vincent.githubusers.utilities.MenuHelper
 import com.vincent.githubusers.utilities.Utility
 
 /**
@@ -58,6 +60,19 @@ abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackCh
                 it.setDisplayShowHomeEnabled(true)
             }
         }
+        title = ""
+    }
+
+    override fun onFragmentSettingMenu(actions: IntArray?) {
+        getToolbar()?.run {
+            showOverflowMenu()
+            MenuHelper.setMenuOptions(menu, actions)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

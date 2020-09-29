@@ -40,65 +40,73 @@ class UserProfilePresenter(
         }, loadingCallback)
     }
 
-    fun getBidirectionalFollowedUsers(userDetail: ItemUserDetail) {
+    fun getBidirectionalFollowedUsers(userDetail: ItemUserDetail, loadingCallback: OnLoadingCallback) {
         if (userDetail.mightHaveBidirectionalFollowed()) {
+            loadingCallback.onLoadingStart()
+
             val followingPages = ceil(userDetail.following.toDouble() / Const.MAX_SIZE_OF_PER_PAGE).toInt()
             val followersPages = ceil(userDetail.followers.toDouble() / Const.MAX_SIZE_OF_PER_PAGE).toInt()
 
-            getFollowingList(userDetail.login, followingPages, 1)
-            getFollowersList(userDetail.login, followersPages, 1)
+            getFollowingList(userDetail.login, followingPages, 1, loadingCallback)
+            getFollowersList(userDetail.login, followersPages, 1, loadingCallback)
         }
     }
 
-    private fun getFollowingList(login: String, pages: Int, pageStartFrom: Int) {
-        DataCallbacks.getUserFollowing(login, pages, object : OnDataGetCallback<ArrayList<ItemFollower>> {
+    private fun getFollowingList(login: String, totalPages: Int, pageStartFrom: Int, loadingCallback: OnLoadingCallback) {
+        DataCallbacks.getUserFollowing(login, pageStartFrom, object : OnDataGetCallback<ArrayList<ItemFollower>> {
             override fun onDataGet(item: ArrayList<ItemFollower>?) {
+                if (isCancelled) return
+
                 item?.let {
-                    followingList.addAll(item)
+                    followingList.addAll(it)
                 }
-                if (pageStartFrom < pages) {
-                    getFollowingList(login, pages, pageStartFrom + 1)
+                if (pageStartFrom < totalPages) {
+                    getFollowingList(login, totalPages, pageStartFrom + 1, loadingCallback)
                 }
                 else {
                     isFollowingAllGet = true
-                    compareTwoListAndRetainTheSame()
+                    compareTwoListAndRetainTheSame(loadingCallback)
                 }
             }
 
             override fun onDataGetFailed(errorMessage: String?) {
                 showErrorMessage(errorMessage)
             }
-        }, loadingCallback)
+        }, this@UserProfilePresenter.loadingCallback)
     }
 
-    private fun getFollowersList(login: String, pages: Int, pageStartFrom: Int) {
-        DataCallbacks.getUserFollowers(login, pages, object : OnDataGetCallback<ArrayList<ItemFollower>> {
+    private fun getFollowersList(login: String, totalPages: Int, pageStartFrom: Int, loadingCallback: OnLoadingCallback) {
+        DataCallbacks.getUserFollowers(login, pageStartFrom, object : OnDataGetCallback<ArrayList<ItemFollower>> {
             override fun onDataGet(item: ArrayList<ItemFollower>?) {
+                if (isCancelled) return
+
                 item?.let {
-                    followersList.addAll(item)
+                    followersList.addAll(it)
                 }
-                if (pageStartFrom < pages) {
-                    getFollowersList(login, pages, pageStartFrom + 1)
+                if (pageStartFrom < totalPages) {
+                    getFollowersList(login, totalPages, pageStartFrom + 1, loadingCallback)
                 }
                 else {
                     isFollowersAllGet = true
-                    compareTwoListAndRetainTheSame()
+                    compareTwoListAndRetainTheSame(loadingCallback)
                 }
             }
 
             override fun onDataGetFailed(errorMessage: String?) {
                 showErrorMessage(errorMessage)
             }
-        }, loadingCallback)
+        }, this@UserProfilePresenter.loadingCallback)
     }
 
-    private fun compareTwoListAndRetainTheSame() {
+    private fun compareTwoListAndRetainTheSame(loadingCallback: OnLoadingCallback) {
         if (isCancelled) return
 
         if (isFollowingAllGet && isFollowersAllGet) {
             val result = followingList.retainAll(followersList)
             Log.i("UserProfilePresenter", "Result: $result Size: ${followingList.size}")
             userProfileCallback.onBidirectionalFollowedGet(followingList)
+
+            loadingCallback.onLoadingEnds()
         }
     }
 

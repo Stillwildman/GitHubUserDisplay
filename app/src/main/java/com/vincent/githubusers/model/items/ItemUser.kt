@@ -31,6 +31,9 @@ data class ItemUser(
     fun getSiteAdminVisibility(): Int = if (site_admin) View.VISIBLE else View.GONE
 
     fun isUserAdded(favoriteListInterface: FavoriteListInterface): Boolean {
-        return favoriteListInterface.getCurrentFavoriteUserList().contains(this)
+        favoriteListInterface.getCurrentFavoriteUserList().forEach { item ->
+            if (item.id == id) return true
+        }
+        return false
     }
 }
