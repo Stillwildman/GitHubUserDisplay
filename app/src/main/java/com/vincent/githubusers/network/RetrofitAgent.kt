@@ -24,13 +24,11 @@ object RetrofitAgent {
     }
 
     private fun newRetrofit(baseUrl: String): Retrofit {
-        retrofit = Retrofit.Builder()
+        return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseUrl)
             .client(getOkHttpClient())
             .build()
-
-        return retrofit!!
     }
 
     private fun getOkHttpClient(): OkHttpClient {
